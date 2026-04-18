@@ -165,10 +165,10 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no expla
     }
   ],
   "nutrition": {
-    "calories": "calories per serving",
-    "protein": "grams",
-    "carbs": "grams",
-    "fat": "grams"
+    "calories": "NUMBER OR RANGE ONLY (e.g., '500' or '500-600')",
+    "protein": "NUMBER AND UNIT ONLY (e.g., '30g')",
+    "carbs": "NUMBER AND UNIT ONLY (e.g., '15g')",
+    "fat": "NUMBER AND UNIT ONLY (e.g., '10g')"
   },
   "tips": [
     "General cooking tip 1",
@@ -182,6 +182,11 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no expla
     }
   ]
 }
+
+IMPORTANT RULES FOR NUTRITION:
+- NEVER use words like "Approximately" or phrases like "without rice/naan".
+- NEVER write conversational text.
+- ONLY return raw numbers, short ranges, and units (e.g., "500", "500-600", "30g", "15-25g").
 
 IMPORTANT RULES FOR CATEGORY:
 - Breakfast items (pancakes, eggs, cereal, etc.) → "breakfast"
@@ -497,8 +502,7 @@ export async function getRecipesByPantryIngredients() {
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
         throw new Error(
-          `Monthly AI recipe limit reached. ${
-            isPro ? "Please contact support." : "Upgrade to Pro!"
+          `Monthly AI recipe limit reached. ${isPro ? "Please contact support." : "Upgrade to Pro!"
           }`
         );
       }
