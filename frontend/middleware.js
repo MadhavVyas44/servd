@@ -30,7 +30,7 @@ const aj = arcjet({
 });
 
 export default clerkMiddleware(async (auth, req) => {
-  // Apply Arcjet protection FIRST (before Clerk auth check)
+  console.log("Middleware triggered for:", req.nextUrl.pathname);
   const decision = await aj.protect(req);
 
   if (decision.isDenied()) {
